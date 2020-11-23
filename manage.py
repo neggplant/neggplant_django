@@ -8,6 +8,7 @@ def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'app_manage.settings.dev')
     print('main getpid:', os.getpid())
+    print('main getppid:', os.getppid())
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

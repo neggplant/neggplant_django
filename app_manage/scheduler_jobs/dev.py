@@ -16,13 +16,13 @@ from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
 from apple.views import apples_red, apples_green
 
 executors = {
-    'default': ThreadPoolExecutor(2),
+    'default': ThreadPoolExecutor(1),
     'processpool': ProcessPoolExecutor(1)
 }
 job_defaults = {
-    # 'coalesce': True,
-    'max_instances': 3,
-    # 'misfire_grace_time': 111
+    'misfire_grace_time': 1100,
+    'max_instances': 20,
+    'coalesce': True,
 }
 
 scheduler = BackgroundScheduler(daemonic=True, executors=executors, job_defaults=job_defaults)
@@ -47,13 +47,13 @@ def create_scheduler():
                 # 静态报警
                 scheduler.add_job(
                     apples_red,
-                    'interval', minutes=0.05,
+                    'interval', seconds=3,
                     id="apples_red",
                     replace_existing=True
                 )
                 scheduler.add_job(
                     apples_green,
-                    'interval', minutes=0.05,
+                    'interval', seconds=3,
                     id="apples_green",
                     replace_existing=True
                 )
@@ -128,6 +128,7 @@ def create_scheduler():
             else:
                 scheduler.start()
                 print("=======================scheduler start==========================")
+
 
 def clear_scheduler():
     scheduler.remove_all_jobs()
